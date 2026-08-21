@@ -1,0 +1,20 @@
+{
+  "name": "middleware_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch script.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "corm": "^2.0.1",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0"
+  }
+}
