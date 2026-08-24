@@ -34,6 +34,7 @@ app.get("/",(req,res)=>{
 
 })
 
+// read
 
 app.get("/taskList",(req,res,next)=>{
 
@@ -47,6 +48,29 @@ app.get("/taskList",(req,res,next)=>{
 
 })
 
+
+app.get("/taskList/:id",(req,res,next)=>{
+
+    try{
+
+        const {id} = req.params
+
+        const task = taskList.find((t)=>t.id === Number(id));
+
+        if(!task){
+
+        return res.status(200).json({message:"no task data available"})
+        }
+
+        res.status(200).json({message:"id visible",task})
+
+    }
+    catch(error){
+            return next(new HttpError("Request not found"));
+
+    }
+
+})
 
 // undefine middleware
     
