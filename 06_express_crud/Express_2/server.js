@@ -5,48 +5,74 @@
 
     const app = express();
 
-const tasksList = [
+const students = [
     {
         id: 1,
-        task: "Learn JavaScript",
-        description: "Practice arrays, objects, functions, and DOM."
+        name: "Rutik",
+        language: "JavaScript"
     },
     {
         id: 2,
-        task: "Learn Node.js",
-        description: "Understand modules, file system, and servers."
+        name: "Rahul",
+        language: "Java"
     },
     {
         id: 3,
-        task: "Learn Express.js",
-        description: "Practice routes, middleware, and CRUD operations."
-    },
-    {
-        id: 4,
-        task: "Build a Project",
-        description: "Create a simple Task Management application."
+        name: "Amit",
+        language: "Python"
     }
 ];
 
-app.get("/taskList",(req,res,next)=>{
 
-    if(tasksList.length === 0){
-
-       return res.status(200).json({message:"No task available"})
-
-    }
-
-    res.status(200).json({message:"Task added successfully",tasksList})
-     
-
-})
+ console.log(students);
 
 
+ 
     app.get("/",(req,res)=>{
 
         return res.json({message:"Express Crud"});
 
     })
+
+    // read data    
+
+    app.get("/students",(req,res,next)=>{
+
+    if(students.length === 0){
+
+       return res.status(200).json({message:"No task available"})
+
+    }
+
+    res.status(200).json({message:"Task added successfully",students})
+     
+
+})
+
+
+app.get("/students/:id",(req,res)=>{
+
+    try{
+
+        const {id} = req.params
+
+        const student = students.find((s)=>s.id === Number(id));
+
+        if(!student){
+
+             return res.status(200).json({message:"Student not found"});
+        }
+
+        res.status(200).json({message:"Student id visible",student})
+
+    }catch(err){
+
+    return next(new HttpError("Request not Found"));
+
+    }
+    
+})
+
 
 
     // undefine middleware 
