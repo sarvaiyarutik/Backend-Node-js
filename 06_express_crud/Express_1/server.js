@@ -6,7 +6,7 @@ import HttpError from "./middleware/HttpError.js"
 
 const app = express();
 
-
+app.use(express.json());
 
 
     const taskList = [
@@ -57,7 +57,7 @@ app.get("/taskList/:id",(req,res,next)=>{
 
         const task = taskList.find((t)=>t.id === Number(id));
 
-        if(!task){
+        if(task === undefined){
 
         return res.status(200).json({message:"no task data available"})
         }
@@ -72,6 +72,104 @@ app.get("/taskList/:id",(req,res,next)=>{
 
 })
 
+
+app.post("/task/add",(req,res,next)=>{
+
+    try{
+
+        const {task,description} = req.body;
+
+        if(task === undefined || taskList === undefined){
+
+            return next(new HttpError("task or description data are required"))
+
+        }
+
+        const newTask = {
+
+            id:new Date().getTime(),
+            task,
+            description
+        }
+
+        taskList.push(newTask);
+
+        res.status(200).json({success:true,message:"new task added successfully",newTask});
+
+
+    }catch(err){
+      return next(new HttpError("Request not found"));
+    }
+
+})
+
+// delete data
+
+app.delete("/task/:id",(req,res,next)=>{
+
+    try{
+
+        const { id } = req.params;
+
+        const deleteData = taskList.findIndex((t)=>t.id === Number(id));
+
+        if(deleteData === -1){
+
+            return next(new HttpError("task not found in id",404));
+        }
+
+        taskList.splice(deleteData,1);
+
+        res.status(200).json({success:true,message:"task deleted successfully"});
+
+
+
+    }catch(err){
+
+    return next(new HttpError("request not found"));
+    }
+
+})
+
+//  update using patch
+
+
+app.patch("/taskUpdate/:id",(req,res,next)=>{
+
+    try{
+
+        const {id} = req.params;
+
+        const {task,description} = req.body;
+
+        const dataTask = taskList.find((t)=>t.id === Number(id));
+
+        if(dataTask === undefined && taskList === undefined){
+
+            return next(new HttpError("task not found id is updated",400));
+        }
+
+        if(task){
+            dataTask.task = task;
+        }
+        if(description){
+            dataTask.description = description;
+        }
+
+        if(task === undefined && taskList === undefined){
+    return next(new HttpError("task or description data is required", 400));
+
+        }
+
+        res.status(200).json({success:true,message:"task data updated",dataTask});
+
+    }catch(err){
+        return next(new HttpError("request not found "))
+    }
+
+})
+
+
 // undefine middleware
     
 app.use((req,res,next)=>{
@@ -79,6 +177,8 @@ app.use((req,res,next)=>{
     return next(new HttpError("Request not found"));
 
 })
+
+// centralize middleware
 
 app.use((error,req,res,next)=>{
 
