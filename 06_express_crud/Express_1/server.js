@@ -12,7 +12,7 @@ app.use(express.json());
     const taskList = [
     {
         id: 1,
-        tack: "Learn Node.js",
+        task: "Learn Node.js",
         description: "Understand Node.js modules, file system, and HTTP server."
     },
     {
@@ -79,7 +79,7 @@ app.post("/task/add",(req,res,next)=>{
 
         const {task,description} = req.body;
 
-        if(task === undefined || taskList === undefined){
+        if(task === undefined || description === undefined){
 
             return next(new HttpError("task or description data are required"))
 
@@ -144,7 +144,7 @@ app.patch("/taskUpdate/:id",(req,res,next)=>{
 
         const dataTask = taskList.find((t)=>t.id === Number(id));
 
-        if(dataTask === undefined && taskList === undefined){
+        if(dataTask === undefined){
 
             return next(new HttpError("task not found id is updated",400));
         }
@@ -156,7 +156,7 @@ app.patch("/taskUpdate/:id",(req,res,next)=>{
             dataTask.description = description;
         }
 
-        if(task === undefined && taskList === undefined){
+        if(task === undefined && description === undefined){
     return next(new HttpError("task or description data is required", 400));
 
         }
@@ -165,6 +165,43 @@ app.patch("/taskUpdate/:id",(req,res,next)=>{
 
     }catch(err){
         return next(new HttpError("request not found "))
+    }
+
+})
+
+// put method sum task change
+
+app.put("/taskPut/:id",(req,res,next)=>{
+
+
+    try{
+
+        const { id } = req.params;
+
+        const { task, description } = req.body;
+
+        const index = taskList.findIndex((t)=>t.id === Number(id));
+
+        if(index === -1){
+
+            return next(new HttpError("task data with this id not found"))
+
+        }
+
+        taskList[index] = {
+            ...taskList[index],
+            id:Number(id),
+            task:task,
+            description:description,
+        };
+
+        return res.status(200).json({success:true,message:"task update successfully",index:taskList[index]});
+
+
+    }catch(err){
+
+        return next(new HttpError("task not found",404))
+
     }
 
 })

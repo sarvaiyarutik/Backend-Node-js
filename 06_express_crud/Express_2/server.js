@@ -164,6 +164,42 @@ app.patch("/StudentUpdate/:id",(req,res,next)=>{
 });
 
 
+// put update data 
+
+app.put("/StudentPut/:id",(req,res,next)=>{
+
+  try{
+
+    const { id } = req.params;
+
+    const { name , language } = req.body;
+
+    const index = students.findIndex((s)=>s.id === Number(id));
+
+    if(index === -1){
+
+       return next(new HttpError("student data with id not found")); 
+
+    }
+
+    students[index] = {
+      ...students[index],
+      id:Number(id),
+      name:name,
+      language:language,
+    }
+
+    res.status(200).json({success:true,message:"Students data update successfully",index:students[index]})
+
+  }catch(err){
+
+    return next(new HttpError("Task not found"))
+
+  }
+
+})
+
+
 // undefine middleware
 
 app.use((req, res, next) => {
