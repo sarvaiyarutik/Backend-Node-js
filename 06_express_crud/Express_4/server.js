@@ -248,7 +248,8 @@ app.use((error,req,res,next)=>{
 
     if(res.headersSent){
      
-        return next(error)
+       return next(error)
+
     }
 
     res.status(error.statusCode || 500).json({message : error.message || "Internal Server error "});
@@ -266,4 +267,4 @@ app.listen(port,(err)=>{
 
     console.log(`Server running on port ${port}`); 
 
-})
+});
