@@ -4,6 +4,7 @@ import express from "express";
 import httpError from "./middleware/httpError.js";
 import connectDB from "./config/DB.js";
 
+
 const app = express();
 
 app.get("/",(req,res)=>{
