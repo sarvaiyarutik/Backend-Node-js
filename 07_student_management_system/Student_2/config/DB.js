@@ -7,7 +7,7 @@ async function connectDB() {
     try{
 
         
-        const connect = await mongoose.connect("mongodb://127.0.0.1:27017/StudentManagement");
+        const connect = await mongoose.connect("mongodb:/127.0.0.1:27017/StudentManagement");
 
         console.log("db connected")
         return connect;

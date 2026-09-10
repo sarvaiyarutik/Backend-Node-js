@@ -24,11 +24,11 @@ app.use((error,req,res,next)=>{
 
     if(res.headersSent){
 
-        return next(new httpError(error.massage));
+        return next(new httpError(error.message));
 
     }
 
-    return res.status(error.statusCode || 500).json({massage:error.massage || "internal server error"});
+    return res.status(error.statusCode || 500).json({message:error.message || "internal server error"});
 
 })
 
@@ -51,6 +51,7 @@ async function startServer() {
        if(err){
    
            console.log(err)
+        //    throw err;
 
         }
     console.log(`server running on port ${port}`);
@@ -59,8 +60,8 @@ async function startServer() {
 
     }catch(err){
 
-        console.log(err.massage);
-
+        console.log(err.message);
+     
     }
 }
 
