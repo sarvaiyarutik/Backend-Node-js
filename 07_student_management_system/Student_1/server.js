@@ -1,9 +1,13 @@
 import express from "express";
 import httpError from "./middleware/httpError.js";
 import connectDB from "./config/DB.js";
+import studentRoutes from "./routes/student.Routes.js"
 
 const app = express();
 
+app.use(express.json());
+
+app.use("/student", studentRoutes);
 app.get("/", (req, res) => {
 
     return res.json({

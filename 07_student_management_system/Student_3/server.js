@@ -1,10 +1,6 @@
 
-import express from "express";
-
+import express from "express";      
 import httpError from "./middleware/httpError.js";
-
-
-
 import connectDB from "./config/db.js";
 
 
@@ -66,4 +62,4 @@ async function startServer() {
     
 }
 
-startServer()
+startServer();
