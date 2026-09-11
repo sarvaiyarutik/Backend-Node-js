@@ -12,18 +12,18 @@ const EmployeeSchema = new mongoose.Schema({
 
         type:String,
         required:true,
-        unique:true
+        unique:true,
 
     },
 
     GRID:{
 
         type:Number,
-        required:tru,
+        required:true,
         unique:true
 
     },
-    work:{
+    Work:{
       type:String,
       enum:["farmer","mason","plumber"],
       default:"farmer"

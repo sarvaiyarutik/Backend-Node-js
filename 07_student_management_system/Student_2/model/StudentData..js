@@ -14,7 +14,7 @@ const StudentSchema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    ID:{
+    GRID:{
         type:Number,
         required:true,
         unique:true
@@ -23,11 +23,11 @@ const StudentSchema = new mongoose.Schema({
     Course:{
         type:String,
         enum:["fullstack", "graphic design", "ui/ux design", "video editing"],
-        default:"FullStack"
+        default:"fullStack"
     }
 
 })
 
-const Student = mongoose.model("student data",StudentSchema);
+const Employee = mongoose.model("student data",StudentSchema);
 
-export default Student;
+export default Employee;

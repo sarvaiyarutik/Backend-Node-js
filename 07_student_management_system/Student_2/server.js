@@ -3,13 +3,18 @@
 import express from "express";
 import httpError from "./middleware/httpError.js";
 import connectDB from "./config/DB.js";
-
+import studentRoutes from "./routes/student.routes.js"
 
 const app = express();
 
+app.use(express.json())
+
+app.use("/student",studentRoutes);
+
+
 app.get("/",(req,res)=>{
 
-    return res.json({massage:"Student management system"});
+    return res.json({message:"Student management system"});
 
 })
 

@@ -2,10 +2,16 @@
 import express from "express";      
 import httpError from "./middleware/httpError.js";
 import connectDB from "./config/db.js";
+import employeeRouter from "./routes/employeeRoutes.js"
 
 
 
 const app = express();
+
+app.use(express.json());
+
+app.use("/employee",employeeRouter);
+
 
 app.get("/",(req,res)=>{
 
