@@ -1,46 +1,64 @@
 
-
-import express from "express";
-import mongoose from "mongoose";
-
-
-const app = express()
-
-app.get("/",(req,res)=>{
-
-    res.json({message:"Student management system"});
-
-})
+    import express from "express";
+    import connectDB from "./config/db.js"
+    import httpError from "./middleware/httpError.js";
+    import studentRouter from "./Routes/studentRoutes.js";
 
 
-const port = 3000;
+    const app = express()
 
+    app.use(express.json());
 
-async function  startServer() {
-    
-    try{
-        const connect = mongoose();
+    app.use("/student",studentRouter);
 
-        if(!connect){
+    app.get("/",(req,res)=>{
 
-            throw new Error("Failed to connect DB");
+        res.json({message:"Student management system"});
+
+    })
+
+    app.use((req,res,next)=>{
+
+        return next(new httpError("Request not found",404))
+
+    })
+
+    app.use((error,req,res,next)=>{
+
+        if(res.headersSent){
+
+        return next(error);
 
         }
 
-        app.listen(port,(error)=>{
+        return  res.status(error.statusCode || 500).json({message:error.message || "Internal server error"});
 
-            if(error){
+    })
 
-                console.log(error.message);
+    const port = 3000;
 
-            }
+    async function startServer(){
 
-            console.log(`server running on port ${port}`)
+        try{
 
-        })
-    }catch(error){
+    const correct = await connectDB();
 
-        console.log(error.message);
+
+    if(!correct){
+
+        throw new Error("failed to connect db");
     }
 
-}
+    app.listen(port,(error)=>{
+
+
+        console.log(`server running on port ${port}`);
+
+        })
+
+        }catch(error){
+
+        return console.log(error.message);
+        }
+    }
+    startServer();
