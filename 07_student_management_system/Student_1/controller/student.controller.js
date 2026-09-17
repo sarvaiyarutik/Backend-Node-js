@@ -120,8 +120,6 @@ const studentDataDelete = async (req,res,next)=>{
 }
 
 
-
-
 const deleteAllData = async (req, res, next) => {
   try {
     const student = await Student.deleteMany();
@@ -139,5 +137,72 @@ const deleteAllData = async (req, res, next) => {
   }
 };
 
+const StudentUpdateData = async(req,res,next)=>{
+
+    try{
+
+        const {id}  = req.params
+
+        const updateStudent = await Student.findByIdAndUpdate(id,req.body,{
+            new:true,
+            runValidators:true
+        })
+
+        if(!updateStudent){
+
+            return next(new httpError("student data not updated",400));
+
+        }
+
+       return res.status(400).json({success:true,message:"student data update successfully",updateStudent})
+
+    }catch(error){
+    return next(new HttpError(error.message, 500));
+    }
+    
+}
+
+const StudentUpdateManually = async (req,res,next)=>{
+
+    try{
+
+        const {id} = req.params;
+
+        const UpdateManually = await Student.findById(id);
+
+        if(!UpdateManually){
+
+            return next(new httpError("Student not found with in id"))
+        }
+
+        const update = Object.keys(req.body);
+
+        const allowedFields = ["name","Course"]
+
+        const ValidUpdate = update.every((u)=>{
+            allowedFields.includes(u);
+        })
+
+        if(!ValidUpdate){
+
+            return next(new httpError("only allowed field can be update", 400))
+
+        }
+
+        update.forEach((u)=>(
+            updateStudent[u]= req.body[update]
+        ))
+
+        await updateStudent.save();
+
+        res.student(200).json({success:true,message:"student updated successfully",updateStudent})
+
+
+    }catch(error){
+        return next(new httpError(error.message));
+    }
+
+}
+
    
-export default {add,studentGetData,studentDataById,studentDataDelete,deleteAllData};
+export default {add,studentGetData,studentDataById,studentDataDelete,deleteAllData,StudentUpdateData,StudentUpdateManually};

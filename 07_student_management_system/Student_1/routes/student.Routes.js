@@ -15,6 +15,7 @@ Router.delete("/allDelete",studentController.deleteAllData)
 Router.get("/:id",studentController.studentDataById);
 
 Router.delete("/:id", studentController.studentDataDelete);
-
+// Router.patch("/:id",studentController.StudentUpdateData);
+Router.patch("/:id",studentController.StudentUpdateManually)
 
 export default Router;

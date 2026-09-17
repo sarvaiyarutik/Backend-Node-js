@@ -1,101 +1,80 @@
 
-
 import express from "express";
 import httpError from "./middleware/httpError.js";
 
 const app = express();
 
-const studentList = [
+app.use(express.json());
 
-     {
-        id:1,
-        name:"rutik",
-        age:19,
-        language:"English"
-     },
-          {
-            id:2,
-        name:"vraj",
-        age:17,
-        language:"Hindi"
-     }
-]
-
+   const taskList = [
+    {
+        id: 1,
+        task: "Learn Node.js",
+        description: "Understand Node.js modules, file system, and HTTP server."
+    },
+    {
+        id: 2,
+        task: "Learn Express.js",
+        description: "Learn routes, middleware, request, and response handling."
+    },
+    {
+        id: 3,
+        task: "Build CRUD API",
+        description: "Create APIs for adding, viewing, updating, and deleting data."
+    }
+];
 
 app.get("/",(req,res)=>{
 
-    res.json("Express Crud");
+    res.json("express crud")
 
 })
 
-app.get("/studentList",(req,res,next)=>{
+app.get("/taskList",(req,res,next)=>{
 
-    if(studentList.length === 0){
+    if(taskList.length === 0){
 
-        return  res.status(200).json({message:"no task available"});
+        return res.status(200).json({message:"no data available"})
+
     }
 
-    res.status(200).json({message:"data added successfully",studentList});
+    res.status(200).json({message:"Data added successfully",taskList})
+
 })
 
-
-app.get("/studentList/:id",(req,res,next)=>{
+app.get("/:taskList",(req,res,next)=>{
 
     try{
 
-        const {id} = req.params
+        const {id} = req.params;
 
-        const student = studentList.find((s)=>s.id === Number(id));
+        const task = taskList.find((f)=>f.id === Number(id))
 
-        if(student === undefined){
-            return next(new httpError("task or description data are required"))
-        }
+        if(task === undefined){
 
-        const newStudent = {
-
-            id:new Date().getTime()
+        return res.status(200).json({message:"no task data available"})
 
         }
+       res.status(200).json({message:"id visible",task})
 
-    }catch(error){
 
-             console.log(error.message);
+    } catch(error){
+            return next(new HttpError("Request not found"));
 
     }
 
 })
 
-// undefine  middleware 
-
-app.use((req,res,next)=>{
 
 
-    return next(new httpError("Request not found"));
+const port = 5000;
 
-})
+app.listen(port,(error)=>{
 
-app.use((error,req,res,next)=>{
-
-    if(res.headersSent){
-
-       return  next(error)
-
+    if(error){
+        console.log(error.message)
     }
 
-    return res.status(error.statusCode || 500).json({message:error.message || "internal server error"});
-
-})
-
-const port = 1000;
-
-app.listen(port,(err)=>{
-
-    if(err){
-
-        console.log(err);
-
-    }
-
-    console.log(`Server running on port ${port}`);
+    console.log(`server running on port ${port}`)
 
 })
