@@ -1,7 +1,7 @@
 class httpError extends Error{
-    constructor(message,statusCOde){
+    constructor(message,statusCode){
         super(message);
-        this.statusCOde = statusCOde;
+        this.statusCode = statusCode;
     }
 }
 

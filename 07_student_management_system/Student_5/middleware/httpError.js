@@ -1,5 +1,5 @@
 
-class httpError extends Error {
+class httpError extends Error{
 
     constructor(message,statusCode){
 
@@ -7,6 +7,7 @@ class httpError extends Error {
         this.statusCode = statusCode;
 
     }
+
 }
 
 export default httpError;
