@@ -5,7 +5,9 @@
     const routes = express.Router();
 
     routes.post("/add",studentController.add);
-    routes.get("/employeeDataShow",studentController.employeeDataShow)
+    routes.get("/employeeDataShow",studentController.employeeDataShow);
+    routes.delete("/deleteEmployeeId/:id",studentController.deleteEmployeeId);
+    routes.get("/employeeGetAllData/:id",studentController.employeeGetAllData);
 
     export default routes;
 

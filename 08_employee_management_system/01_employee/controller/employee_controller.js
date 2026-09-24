@@ -1,50 +1,102 @@
 
-import model from "../model/studentData.js"
-import httpError from "../middleware/httpError.js"
-import Employee from "../model/studentData.js";
+    import httpError from "../middleware/httpError.js"
+    import Employee from "../model/studentData.js";
 
-const add = async (req,res,next)=>{
+    const add = async (req,res,next)=>{
 
-    try{
+        try{
 
-        const {name,email,GRID,mobile,department} = req.body;
+             const {
+            name,
+            email,
+            GRID,
+            mobile,
+            department
+        } = req.body;
 
-      const newEmployee = {
-    name, email, GRID, mobile, department
-}
-
-const newEmployee1 = await new Employee({
-    name, email, GRID, mobile, department
-})
-        res.status(201).json({success:true,message:"data added successfully",newEmployee})
-
-    }catch(error){
-        return next(new httpError(error.message))
-    }
-
-}
+             const employee = await Employee.create({
+            name,
+            email,
+            GRID,
+            mobile,
+            department
+        });
 
 
-const employeeDataShow = async(req,res,next)=>{
 
-    try{
+   
+            res.status(201).json({success:true,message:"data added successfully",employee})
 
-        const {id} = req.params;
-
-        const employee = await Employee.find({});
-
-        if(employee.length === 0){
-            return next(new httpError("Employee not found",404))
+        }catch(error){
+            return next(new httpError(error.message))
         }
 
-        res.status(200).json({success:true,message:"employee data fetched successfully",total:employee.length})
-
-    }catch(error){
-        return next(new httpError(error.message,500));
     }
 
-}
+
+    const employeeDataShow = async(req,res,next)=>{
+
+        try{
+
+            const {id} = req.params
+
+            const employee = await Employee.find({});
+
+            if(employee.length === 0){
+                return next(new httpError("Employee not found",404))
+            }
+
+            res.status(200).json({success:true,message:"employee data fetched successfully",total:employee.length,employee})
+
+        }catch(error){
+            return next(new httpError(error.message,500));
+        }
+
+    }
+
+    const employeeGetAllData = async(req,res,next)=>{
+
+        try{
+
+            const {id} = req.params
+            
+            const employee =await Employee.findById(id);
+
+        if(!employee){
+
+            return next(new httpError("employee not found",404));
+
+        }
+
+        res.status(200).json({success:true,message:"employee found",employee})
+
+            
+        }catch(error){
+            return next(new httpError(error.message,500));
+        }
+
+    }
+
+    const deleteEmployeeId = async(req,res,next)=>{
+
+        try{
+
+            const {id} = req.params
+
+            const employee = await Employee.findByIdAndDelete(id);
+
+            if(!employee){
+
+                return next(new httpError("employee not found within id ",404))
+            }
+
+            res.status(200).json({success:true, message:"employee delete successfully"})
+
+        }catch(error){
+            return next(new httpError(error.message,500))
+        }
 
 
+    }
 
-export default {add,employeeDataShow};
+    export default {add,employeeDataShow,employeeGetAllData,deleteEmployeeId};
