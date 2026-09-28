@@ -6,8 +6,11 @@
 
     routes.post("/add",studentController.add);
     routes.get("/employeeDataShow",studentController.employeeDataShow);
+    routes.delete("/deleteAll",studentController.deleteAll)
     routes.delete("/deleteEmployeeId/:id",studentController.deleteEmployeeId);
     routes.get("/employeeGetAllData/:id",studentController.employeeGetAllData);
+    // routes.patch("/:id",studentController.employeeDataUpdate)
+    routes.patch("/updateManually/:id",studentController.updateManually)
 
-    export default routes;
+ export default routes;
 
