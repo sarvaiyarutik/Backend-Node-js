@@ -19,7 +19,32 @@ const eventSchema = new mongoose.Schema({
     eventIMG:{
         type:[String]
     },
-    {
-        
+   
+      eventPoster: {
+        type:String,
+        required:true
+    },
+    eventBanner:{
+        type:String
+    },
+    eventVenue:{
+        type:String,
+        required:true
+    },
+    eventSpeaker:{
+        type:[String]
+    },
+    eventTIcketPrice:{
+        type:Number,
+        required:true
+    },
+    eventDocument:{
+         type:[String],
+         required:true
     }
-}) 
+
+})  
+
+const event = mongoose.model("Event model",eventSchema);
+
+export default event;

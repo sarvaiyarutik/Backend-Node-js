@@ -32,7 +32,7 @@ app.use((error,req,res,next)=>{
 
 })
 
-const port = process.env.;
+const PORT = process.env.PORT;
 
 async function startServer(){
 
@@ -46,13 +46,13 @@ async function startServer(){
             throw new Error("Failed to connect DB");
         }
 
-        app.listen(port,(error)=>{
+        app.listen(PORT,(error)=>{
 
             if(error){
                 console.log(error.message)
             }
 
-            console.log(`server running on port ${port}`);
+            console.log(`server running on port ${PORT}`)
         })
 
     }catch(error){
