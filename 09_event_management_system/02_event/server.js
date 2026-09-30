@@ -32,7 +32,7 @@ app.use((error,req,res,next)=>{
 
 })
 
-const port = 1000;
+const port = process.env.;
 
 async function startServer(){
 
