@@ -9,7 +9,7 @@ const EventSchema = new mongoose.Schema({
         required:true,
         trim:true
     },  
-    EventName:{
+    EventDate:{
         type:String,
         required:true
     },
@@ -46,6 +46,6 @@ const EventSchema = new mongoose.Schema({
 
 })
 
-const event = mongoose.model("Event Data",EventSchema);
+const eventModel = mongoose.model("Event Data",EventSchema);
 
-export default event;
+export default eventModel;

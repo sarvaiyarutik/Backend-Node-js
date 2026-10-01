@@ -10,15 +10,15 @@ const storage = multer.diskStorage({
             folderName += "EventImg";
         }
         else if(file.fieldname === "EventPoster"){
-            fieldname += "EventPoster";
+            folderName += "EventPoster";
         }else if(file.fieldname === "EventBanner"){
-            fieldname += "EventBanner";
+            folderName += "EventBanner";
         }
         else if(file.fieldname === "EventSpeakers"){
-            fieldname += "EventSpeakers";
+            folderName += "EventSpeakers";
         }
         else if(file.fieldname === "EventDocument"){
-            fieldname += "EventDocument";
+            folderName += "EventDocument";
         }
 
         else{
@@ -29,14 +29,20 @@ const storage = multer.diskStorage({
 
         return cb(null,folderName)
 
-        }
+        },
 
+        filename:(req,file,cb)=>{
+
+            const uniqueName = `${file.fieldname}-${Date.now()}-${file.originalname}`;
+
+            return cb(null,uniqueName);
+        }
 
         
 
 })
 
-const fileFilter = (req,file,cd)=>{
+const fileFilter = (req,file,cb)=>{
 
     const imgType = ["image/jpg","image/jpeg","image/png"];
 

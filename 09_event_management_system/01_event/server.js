@@ -2,11 +2,15 @@ import express from "express";
 import httpError from "./middleware/httpError.js"
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import eventRouter from "./router/eventRouter.js"
 
 dotenv.config({path:"./.env"})
 
 const app = express();
+
 app.use(express.json());
+
+app.use("/event",eventRouter);
 
 app.get("/",(req,res)=>{
 
