@@ -29,7 +29,15 @@ const storage = multer.diskStorage({
       fs.mkdirSync(folderName,{recursive:true});
 
       return cb(null,folderName)
+    },
+    filename:(req,file,cb)=>{
+
+      const  uniqueName = `${file.fieldname}-${Date.now()}-${file.originalname}`
+
+      return cb(null,uniqueName);
     }
+
+
 
 });
 

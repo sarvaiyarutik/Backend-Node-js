@@ -25,7 +25,7 @@ const eventSchema = new mongoose.Schema({
         required:true
     },
     eventBanner:{
-        type:String
+        type:[String]
     },
     eventVenue:{
         type:String,
@@ -45,6 +45,6 @@ const eventSchema = new mongoose.Schema({
 
 })  
 
-const event = mongoose.model("Event model",eventSchema);
+const EventModel = mongoose.model("Event model",eventSchema);
 
-export default event;
+export default EventModel;
