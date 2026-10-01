@@ -28,11 +28,11 @@ app.use((error,req,res,next)=>{
 
     }
 
-    return req.status(error.statusCode || 500).json({message:error.message || "internal server error"})
+    return res.status(error.statusCode || 500).json({message:error.message || "internal server error"})
 
 })
 
-const PORT = process.env.PORT;
+const port = process.env.PORT;
 
 async function startServer(){
 
@@ -46,14 +46,13 @@ async function startServer(){
             throw new Error("Failed to connect DB");
         }
 
-        app.listen(PORT,(error)=>{
+    app.listen(port, (error) => {
+      if (error) {
+        console.log(error.message);
+      }
 
-            if(error){
-                console.log(error.message)
-            }
-
-            console.log(`server running on port ${PORT}`)
-        })
+      console.log(`server running on port ${port}`);
+    });
 
     }catch(error){
         console.log(error.message)
