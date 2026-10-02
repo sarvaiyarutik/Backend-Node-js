@@ -24,9 +24,10 @@ const EventSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    EventBanner:{
-        type:String
-    },
+     EventBanner: {
+     type: [String],
+     default: []
+   },
     EventVenue:{
         type:String,
         required:true
