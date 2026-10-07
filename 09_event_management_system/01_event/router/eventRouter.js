@@ -21,13 +21,7 @@ router.get("/EventGetAll",eventController.EventGetAll);
 router.delete("/deleteEvent/:id",eventController.deleteEvent);
 router.get("/EventGetById/:id",eventController.EventGetById);
 router.patch("/:id",uploads.fields([
-
-  {name:"EventPoster",maxCount:1},
   {name:"EventImg",maxCount:4},
-  {name:"EventBanner",maxCount:1},
-  {name:"EventSpeakers",maxCount:3},
-  {name:"eventDocuments",maxCount:2}
-
 ]),eventController.updateManually)                 
 
 
