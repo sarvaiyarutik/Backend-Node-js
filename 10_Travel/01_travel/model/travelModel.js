@@ -3,10 +3,10 @@ import mongoose from "mongoose"
 
 const packageSchema = new mongoose.Schema({
 
-  placeName:{
-    type:true,
-    required:true
-  },
+ placeName: {
+    type: String,
+    required: true
+},
   duration:{
     type:String,
     required:true
@@ -21,10 +21,12 @@ const packageSchema = new mongoose.Schema({
   },
   travel_img:{
     type:String,
-    required:true
+  },
+  travel_id:{
+    type:String
   }
 },{timestamps:true})
 
-const travel = mongoose.model("travel path",travelSchema);
+const travel = mongoose.model("travel path",packageSchema);
 
 export default travel;

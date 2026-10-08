@@ -3,12 +3,17 @@ import express from "express";
 import httpError from "./middleware/httpError.js";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
+import travelRoutes from "./routes/travelRoutes.js"
 
 dotenv.config({path:"./.env"})
 
 const app = express();
 
+
 app.use(express.json());
+
+
+app.use("/travel",travelRoutes)
 
 app.get("/",(req,res)=>{
 
