@@ -1,5 +1,6 @@
 
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
 const UserSchema = new mongoose.Schema({
 
@@ -31,6 +32,47 @@ const UserSchema = new mongoose.Schema({
 },{
     timeseries:true
 })
+
+
+UserSchema.pre("save", async function () {
+
+    try{
+        const user = this
+
+        if (user.isModified("password")) {
+        user.password = await bcrypt.hash(this.password, 10);
+    }
+    }catch(error){
+        throw new Error(error.message)
+    }
+    
+});
+
+
+UserSchema.statics.findByCredential = async function (email, password) {
+    console.log("Email received:", email);
+
+    const user = await this.findOne({ email });
+
+    console.log("User found:", !!user);
+
+    if (!user) {
+        throw new Error("Email not found in database");
+    }
+
+    console.log("Stored password hash:", user.password);
+
+    const isMatched = await bcrypt.compare(password, user.password);
+
+    console.log("Password matched:", isMatched);
+
+    if (!isMatched) {
+        throw new Error("Password does not match");
+    }
+
+    return user;
+};
+
 
 const User = mongoose.model("user model data",UserSchema);
 

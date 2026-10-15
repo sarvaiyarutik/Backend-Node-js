@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
     timestamps:true
 });
 
+userSchema.pre("save",)
+
 
 const user = mongoose.model("model path",userSchema);
 
