@@ -21,4 +21,27 @@ const add = async(req,res,next)=>{
 
 }
 
-export default {add};
+const getAll = async(req,res,next)=>{
+
+    try {
+
+        const {id} = req.params;
+
+        const user = await userModel.find({});
+
+        if(!user){
+
+            return next(new httpError("user data not found",404));
+
+        }
+
+        res.status(201).json({success:true,message:"all data found successfully",total:user.length,user})
+
+        
+    } catch (error) {
+        return next(new httpError(error.message,500))
+    }
+
+}
+
+export default {add,getAll};
