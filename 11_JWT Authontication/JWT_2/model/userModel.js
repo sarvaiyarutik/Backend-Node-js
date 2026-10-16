@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
 
 const userSchema = new mongoose.Schema({
 
@@ -26,7 +27,13 @@ const userSchema = new mongoose.Schema({
             }
         }
 
-    }
+    },
+    tokens:[{
+        token:{
+            type:String,
+            required:true
+        }
+    }]
 
 },{
     timestamps:true
@@ -73,6 +80,37 @@ userSchema.static.findByCredential = async function (email,password) {
        throw new Error(error.message)
 
     }
+}
+
+
+userSchema.methods.generateAuthToken = async function () {
+
+    try {
+
+        const user = this;
+
+        const token = jwt.sign({_id:user._id.toString()},
+         process.env.JWT_SECRET,
+         {expiresIn:"10d"}
+    );
+
+    console.log("token",token);
+
+    if(!token){
+
+        throw new Error("failed to auth token")
+    }
+
+    user.token = user.tokens.concat({ token });
+
+    await user.save();
+
+    return token;
+        
+    } catch (error) {
+        throw new Error(error.message) 
+    }
+    
 }
 
 
