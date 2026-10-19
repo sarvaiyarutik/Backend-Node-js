@@ -27,7 +27,15 @@ const UserSchema = new mongoose.Schema({
             } 
             message:"Password cannot contain the word 'password'."
         }
-    }
+    },
+    tokens:[
+        {
+            token:{
+                type:String,
+                required:true
+            }
+        }
+    ]
     
 
 },{
