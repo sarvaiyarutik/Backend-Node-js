@@ -1,5 +1,6 @@
 import httpError from "../middleware/httpError.js";
 import userModel from "../model/userData.js";
+import jwt from "jsonwebtoken";
 
 const add  = async (req,res,next)=>{
 
@@ -43,23 +44,31 @@ const getAll = async(req,res,next)=>{
     
 }
 
+
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        const user = await userModel.findByCredential(email, password);
+        // Step 1: Verify email and password
+        const user = await userModel.findByCredential(
+            email,
+            password
+        );
 
+        // Step 2: Generate and save token
+        const token = await user.generateAuthToken();
 
+        // Step 3: Send token in response
         return res.status(200).json({
             success: true,
             message: "User login successfully",
-            user
+            token,user
         });
 
     } catch (error) {
         return next(new httpError(error.message, 400));
     }
-};  
+};
 
 
 export default {add,getAll,login};
