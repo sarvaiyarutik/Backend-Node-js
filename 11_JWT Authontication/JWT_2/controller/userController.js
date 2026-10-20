@@ -44,4 +44,23 @@ const getAll = async(req,res,next)=>{
 
 }
 
-export default {add,getAll};
+const login = async(req,res,next)=>{
+
+    try{
+
+        const {email,password} = req.body
+
+
+        const user = await userModel.findByCredential({email,password});
+
+
+        const token = await userModel.generateAuthToken();
+
+        return res.status(200).json({success:true,message:"user login successfully",user,token})
+    }catch(error){
+        return next(new httpError(error.message,500))
+    }
+
+}
+
+export default {add,getAll,login    };
