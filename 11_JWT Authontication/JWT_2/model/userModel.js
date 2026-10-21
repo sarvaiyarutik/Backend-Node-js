@@ -53,7 +53,7 @@ userSchema.pre("save",async function (email,password) {
     
 })
 
-userSchema.static.findByCredential = async function (email,password) {
+userSchema.statics.findByCredential = async function (email,password) {
 
 
     try{

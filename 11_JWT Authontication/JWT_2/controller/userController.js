@@ -63,4 +63,6 @@ const login = async(req,res,next)=>{
 
 }
 
-export default {add,getAll,login    };
+
+
+export default {add,getAll,login};

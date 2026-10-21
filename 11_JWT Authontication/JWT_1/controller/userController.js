@@ -49,16 +49,13 @@ const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        // Step 1: Verify email and password
         const user = await userModel.findByCredential(
             email,
             password
         );
 
-        // Step 2: Generate and save token
         const token = await user.generateAuthToken();
 
-        // Step 3: Send token in response
         return res.status(200).json({
             success: true,
             message: "User login successfully",
@@ -70,5 +67,42 @@ const login = async (req, res, next) => {
     }
 };
 
+const authLogin = async(req,res,next)=>{
 
-export default {add,getAll,login};
+    try {
+        
+        const user = req.User;
+
+        console.log(user,"user");
+
+        res.status(200).json({success:true,message:"auth login successfully",user})
+
+    } catch (error) {
+                return next(new httpError(error.message, 400));
+
+    }
+
+}
+
+const deleteUser = async(req,res,next)=>{
+
+    try{
+
+        const User  = req.user;
+
+        const userDelete = await userModel.deleteOne(User);
+
+        if(!userDelete){
+            return next(new httpError("user not found",404));
+        }
+
+        res.status(200).json({success:true,message:"user deleted successfully"})
+
+    }catch(error){
+         return next(new httpError(error.message, 400));
+
+    }
+
+}
+
+export default {add,getAll,login,authLogin,deleteUser};
