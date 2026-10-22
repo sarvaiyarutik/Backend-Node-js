@@ -42,7 +42,7 @@ console.log(
 
             }
 
-            req.User = userF;
+            req.userF = userF;
             req.token = token;
 
             next();

@@ -88,7 +88,7 @@ const deleteUser = async(req,res,next)=>{
 
     try{
 
-        const User  = req.user;
+        const User  = req.userF;
 
         const userDelete = await userModel.deleteOne(User);
 
@@ -105,4 +105,81 @@ const deleteUser = async(req,res,next)=>{
 
 }
 
-export default {add,getAll,login,authLogin,deleteUser};
+
+
+const userUpdate = async(req,res,next)=>{
+
+  try {
+
+    const user = req.userF;
+
+    const updates = Object.keys(req.body);
+    const allowlist =  ["name","password"];
+
+    const isValidUpdate = updates.every((field)=>{
+
+      return  allowlist.includes(field);
+    })
+
+
+    if(!isValidUpdate){
+        return next(new httpError("only allow field update",400))
+    }
+    
+    updates.forEach((u)=>{
+        user[u] = req.body[u]
+    })
+
+    await user.save();
+
+     res
+      .status(200)
+      .json({ success: true, message: "user data updated successfully", user });
+    
+  } catch (error) {
+        return next(new httpError(error.message, 500));
+
+  }
+}
+
+const logOut = async(req,res,next)=>{
+
+    try {
+
+        req.userF.tokens = req.userF.tokens.filter((f)=>f.tokens != req.token);
+
+
+
+        
+await req.userF.save();
+
+
+res.status(200).json({success:true,message:"user log out successfully"})
+        
+    } catch (error) {
+        return next(new httpError(error.message, 500));
+
+    }
+
+}
+
+
+const logOutAll = async(req,res,next)=>{
+
+    try {
+
+        req.userF.tokens = [];
+
+        await req.userF.save();
+
+        res.status(200).json({success:true,message:"user logOut all successfully"})
+        
+    } catch (error) {
+        return next(new httpError(error.message, 500));
+
+    }
+
+}
+
+
+export default {add,getAll,login,authLogin,deleteUser,userUpdate,logOut,logOutAll};

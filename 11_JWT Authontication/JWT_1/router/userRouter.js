@@ -9,5 +9,7 @@ router.get("/getAll",auth,userController.getAll)
 router.post("/login", userController.login);
 router.get("/authLogin", auth, userController.authLogin);
 router.delete("/deleteUser",auth,userController.deleteUser)
-
+router.patch("/userUpdate",auth,userController.userUpdate);
+router.post("/logOut",auth,userController.logOut);
+router.post("/logoutAll", auth, userController.logOutAll);
 export default router;
