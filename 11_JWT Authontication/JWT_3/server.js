@@ -2,7 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import userRoutes from "./router/userRouter.js"
+// import userRoutes from "./router/userRouter.js"
 
 dotenv.config({path:"./.env"});
 
@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/user",userRoutes)
+// app.use("/user",userRoutes)
 
 app.get("/",(req,res)=>{
 
